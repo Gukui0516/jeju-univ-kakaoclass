@@ -1,0 +1,109 @@
+/* 기본 리셋 및 설정 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f4f4f4;
+}
+
+/* 헤더 스타일 */
+.site-header {
+  background: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.site-title {
+  margin: 0;
+  font-size: 2.5em;
+}
+
+.site-subtitle {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+/* 내비게이션 스타일 */
+.main-nav {
+  background: #eee;
+  padding: 15px;
+}
+
+.nav-header {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 15px;
+}
+
+.nav-item {
+  margin: 5px 0;
+}
+
+.nav-item a {
+  text-decoration: none;
+  color: #333;
+}
+
+.nav-item a:hover {
+  text-decoration: underline;
+}
+
+/* 본문 스타일 */
+.main-content {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.page-title {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}
+
+.article-text {
+  font-size: 1em;
+  line-height: 1.6;
+}
+
+/* 푸터 스타일 */
+.footer {
+  background: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.footer-section {
+  margin-bottom: 10px;
+}
+
+.button {
+  background: #555;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #666;
+}
+
+.footer-title {
+  font-size: 1.5em;
+}
+
+.footer-copyright {
+  margin-top: 10px;
+  font-size: 0.8em;
+}
