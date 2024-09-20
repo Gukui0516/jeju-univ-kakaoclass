@@ -1,65 +1,52 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>예제!!!!</title>
-    <link href="assets\style.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <h1 class="site-title">Turtle Ipsum</h1>
-      <h2 class="site-subtitle">The World's Premier Turtle Fan Club</h2>
-    </header>
-    <nav class="main-nav">
-      <img src="img/IU.jpeg" width="500" height="auto" alt="아이유" />
-      <header class="nav-header" aria-label="메인 Resources ">Resources</header>
-      <ul class="nav-list">
-        <li class="nav-item nav-item-bull">
-          <a href="https://www.youtube.com/watch?v=CMNry4PE93Y"
-            >"I like turtles"</a
-          >
-        </li>
-        <li class="nav-item nav-item-bull">
-          <a href="https://en.wikipedia.org/wiki/Turtle">Basic Turtle Info</a>
-        </li>
-        <li class="nav-item nav-item-bull">
-          <a href="https://en.wikipedia.org/wiki/Turtles_(chocolate)"
-            >Chocolate Turtles</a
-          >
-        </li>
-      </ul>
-    </nav>
-    <main class="main-content">
-      <div>
-        <h3 class="page-title">
-          Welcome to Turtle Ipsum. <a href="">Click here</a> to learn more.
-        </h3>
-        <p class="article-text">
-          Turtle ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum
-        </p>
-      </div>
-    </main>
-    <footer class="footer">
-      <section class="footer-section">
-        <button class="button" aria-label="Sign up for turtle news">
-          Sign up for turtle news
-        </button>
-      </section>
-      <footer class="footer-section">
-        <nav class="nav-header footer-title">Internal Pages</nav>
-        <uv class="nav-list">
-          <li class="nav-item nav-item-bull"><a href="../">Index</a></li>
-          <li class="nav-item nav-item-bull">
-            <a href="../semantic">Semantic Example</a>
-          </li>
-        </uv>
-      </footer>
-      <span class="footer-copyright">&copy; 2016 Instrument</span>
-    </footer>
-  </body>
+<head>
+    <title>Message</title>
+</head>
+<body>
+    <script>
+        // TODO: Add hello code
+        function getMessage1(name) {
+            return `Hello, My name is ${name} ...;`
+        } 
+        const message = getMessage('Sanghyeop Oh');
+        document.write(message);
+
+        function IntroduceMyself1(name) {
+            return `제주대학교 컴퓨터공학과 3학년 ${name} 입니다.;`
+        }
+
+        function IntroduceMyself2(name) {
+            return `작년에 ${name}에서 컴퓨터 공학과로 전과 했습니다.;`
+        }
+
+        function IntroduceMyself3(hobby) {
+            return `취미는 ${hobby} 입니다.;`
+        }
+
+        function IntroduceMyself4(interest) {
+            return `관심분야는 ${interest}개발이며 ${interest}개발자가 목표입니다.;`
+        }
+
+        // TODO: Add setTimeout code
+        setInterval(
+            () => { document.write(IntroduceMyself1('오상협')) },
+            () => { document.write(IntroduceMyself2('전자공학과')) },
+            () => { document.write(IntroduceMyself3('콘서트가기와 게임하기')) },
+            () => { document.write(IntroduceMyself4('게임')) },
+        2000 );
+
+      /*
+      ``
+        배운 내용을 토대로 index.html를 수정해보세요.
+        1. 브랜치 생성 (feature/week3) 후 작업
+        a. stirng 표기를 템플릿 리터널 방식으로 변경 해보기
+        b. setInterval 사용해보기
+        c. 함수를 여러개 만들고, 3초마다 다른 함수가 업데이트되는 자기소개글
+        만들어보기
+        2. feature/week3 브랜치에 커밋, 푸쉬
+        3. main 브랜치에 머지
+        */
+    </script>
+</body>
 </html>
