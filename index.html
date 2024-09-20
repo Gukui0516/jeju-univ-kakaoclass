@@ -6,47 +6,51 @@
 <body>
     <script>
         // TODO: Add hello code
-        function getMessage1(name) {
-            return `Hello, My name is ${name} ...;`
+        function getMessage(name) {
+            return `<p> Hello, My name is ${name} ... </p> `;
         } 
         const message = getMessage('Sanghyeop Oh');
         document.write(message);
 
         function IntroduceMyself1(name) {
-            return `제주대학교 컴퓨터공학과 3학년 ${name} 입니다.;`
+            return `<p>  제주대학교 컴퓨터공학과 3학년 ${name} 입니다. </p> `;
         }
 
         function IntroduceMyself2(name) {
-            return `작년에 ${name}에서 컴퓨터 공학과로 전과 했습니다.;`
+            return `<p> 작년에 ${name}에서 컴퓨터 공학과로 전과 했습니다. </p> `;
         }
 
         function IntroduceMyself3(hobby) {
-            return `취미는 ${hobby} 입니다.;`
+            return `<p> 취미는 ${hobby} 입니다. </p>`;
         }
 
         function IntroduceMyself4(interest) {
-            return `관심분야는 ${interest}개발이며 ${interest}개발자가 목표입니다.;`
+            return `<p> 관심분야는 ${interest}개발이며 ${interest}개발자가 목표입니다. </p>`;
         }
 
         // TODO: Add setTimeout code
-        setInterval(
-            () => { document.write(IntroduceMyself1('오상협')) },
-            () => { document.write(IntroduceMyself2('전자공학과')) },
-            () => { document.write(IntroduceMyself3('콘서트가기와 게임하기')) },
-            () => { document.write(IntroduceMyself4('게임')) },
-        2000 );
+        let count = 0; // 몇번째 단계인지 확인
 
-      /*
-      ``
-        배운 내용을 토대로 index.html를 수정해보세요.
-        1. 브랜치 생성 (feature/week3) 후 작업
-        a. stirng 표기를 템플릿 리터널 방식으로 변경 해보기
-        b. setInterval 사용해보기
-        c. 함수를 여러개 만들고, 3초마다 다른 함수가 업데이트되는 자기소개글
-        만들어보기
-        2. feature/week3 브랜치에 커밋, 푸쉬
-        3. main 브랜치에 머지
-        */
+        setInterval(function() {
+          if(count === 0){
+            { document.write(IntroduceMyself1('오상협')) };
+            count++;
+          }
+          else if (count === 1){
+            { document.write(IntroduceMyself2('전자공학과')) + '<br>'};
+            count++;
+          }
+          else if (count === 2){
+            { document.write(IntroduceMyself3('콘서트가기와 게임하기')) + '<br>'};
+            count++;
+          }
+          else if (count === 3){
+            { document.write(IntroduceMyself4('게임')) + '<br>'};
+            count++;
+          }
+
+      } ,2000 );
+
     </script>
 </body>
 </html>
