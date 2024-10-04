@@ -1,7 +1,7 @@
 // blackjack.js
 
 //플레이어
-let cardPlayer = [7, 5, 7, 4, 2, 1];
+let cardPlayer = [10, 10, 1, 4, 2, 1];
 let playerSum= cardPlayer[0] + cardPlayer[1];
 
 //딜러
@@ -26,7 +26,15 @@ console.log(`Bank have ${bankSum} points`);
 
 //승패 결정
 if (bankSum > 21 || (playerSum <= 21 && playerSum > bankSum)) {
-  console.log('You win');
+  if(playerSum === 21) {
+    console.log('Blackjack! You win');
+  }
+  else
+  {
+    console.log('You win');
+  }
+  
+
 }else if(playerSum === bankSum || (playerSum > 21 && bankSum > 21)) {
   console.log('You draw'); //무승부 조건 추가
 } else {
