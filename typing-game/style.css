@@ -1,0 +1,94 @@
+.highlight {
+    background-color: yellow;
+}
+.error {
+    background-color: lightcoral;
+    border: red;
+}
+
+/* 기본 페이지 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f7f7f7;
+    color: #333;
+    margin: 0;
+}
+
+/* 제목 스타일 */
+h1 {
+    font-size: 2.5em;
+    color: #964ae2;
+    margin-bottom: 10px;
+}
+
+/* 설명 텍스트 스타일 */
+p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    max-width: 600px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 인용문 텍스트 스타일 */
+#quote {
+    font-size: 1.3em;
+    color: #555;
+    font-style: italic;
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* 메시지 스타일 */
+#message {
+    font-size: 1.2em;
+    color: #28a745;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* 입력 필드 스타일 */
+#typed-value {
+    padding: 10px;
+    font-size: 1.2em;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    margin-right: 10px;
+}
+
+/* 입력 필드에 오류가 있을 때 스타일 */
+#typed-value.error {
+    border-color: #e74c3c;
+    background-color: #fdecea;
+}
+
+/* 시작 버튼 스타일 */
+#start {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #964ae2;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#start:hover {
+    background-color: #964ae2;
+}
+
+/* 강조 표시된 단어 스타일 */
+.highlight {
+    color: #964ae2;
+    font-weight: bold;
+}
