@@ -49,7 +49,7 @@ function dragElement(terrariumElement) {
         document.onpointerup = null;
         document.onpointermove = null;
     }
-
+a
     function changeLayer(e) {   
         // 모든 요소의 z-index를 2로 변경
         let plants = document.getElementsByClassName('plant');
