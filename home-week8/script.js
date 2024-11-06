@@ -95,7 +95,7 @@ typedValueElement.addEventListener('input', () => {
         saveScore(score); // 점수 저장
 
         // 현재 점수와 상위 3개 점수를 업데이트하여 오른쪽에 표시
-        modalMessage.innerText = `You finished in ${score} seconds.`;
+        modalMessage.innerText = `완벽한 타이핑 입니다!! ${score} 초`;
         scoreList.innerHTML = getTop3Html();
 
         // 모달창 표시
