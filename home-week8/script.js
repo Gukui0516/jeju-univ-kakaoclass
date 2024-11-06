@@ -5,7 +5,7 @@ const quotes = [
     '버그의 꽃말은 그거 기능이에요',
     '잘 모르겠다고? 뒤져볼래? <라이브러리>',
     '듀얼 모니터, 스탠딩 책상, 허먼밀러 의자를 가지고 있는 나는 오늘도 카페를 간다.',
-    '요즘 실력좋은 개발자들은 NULL리고 NULL다 <by 네카라쿠배당토>',
+    '요즘 실력좋은 개발자들은 NULL리고 NULL렸다 <by 네카라쿠배당토>',
     '<버그> 태초에 원인이 있었다 나만 모를 뿐',
     '<ChatGPT> 개발에 관해 문학적인 짧은 글귀 만들어줘',
     '<boolean life = true || false;> 세상을 옳고 그름으로 나누게 되면1 Byte로 설명 가능한 삶이 된다.',
@@ -95,7 +95,7 @@ typedValueElement.addEventListener('input', () => {
         saveScore(score); // 점수 저장
 
         // 현재 점수와 상위 3개 점수를 업데이트하여 오른쪽에 표시
-        modalMessage.innerText = `You finished in ${score} seconds.`;
+        modalMessage.innerText = `완벽한 타이핑 입니다!! ${score} 초`;
         scoreList.innerHTML = getTop3Html();
 
         // 모달창 표시
