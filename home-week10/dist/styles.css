@@ -1,30 +1,152 @@
-/* styles.css */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,button{margin:0;padding:0}
+fieldset,img{border:0 none}
+dl,ul,ol,menu,li{list-style:none}
+blockquote, q{quotes:none}
+blockquote:before, blockquote:after,q:before, q:after{content:'';content:none}
+input,select,textarea,button{vertical-align:middle;font-size:100%}
+button{border:0 none;background-color:transparent;cursor:pointer}
+table{border-collapse:collapse;border-spacing:0}
+body{-webkit-text-size-adjust:none} /* 뷰포트 변환시 폰트크기 자동확대 방지. */
+input[type='text'],input[type='password'],input[type='submit'],input[type='search'],input[type='tel'],input[type='email'],html
+input[type='button'],input[type='reset']{-webkit-appearance:none;border-radius:0}
+input[type='search']::-webkit-search-cancel-button{-webkit-appearance:none}
+body{background:#fff}
+body,th,td,input,select,textarea,button{font-size:14px;line-height:1.5;font-family:'MalgunGothic','맑은 고딕',sans-serif;color:#333} /* color 값은 디자인가이드에 맞게사용 */
+a{color:#333;text-decoration:none}
+a:active, a:hover{text-decoration:none}
+address,caption,cite,code,dfn,em,var{font-style:normal;font-weight:normal}
+ 
+/* //다크모드
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #0E0E0E;
+        color: #fff;
+    }
+}
+*/
+/* 기본 설정 */
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #282828;
-    color: white;
+    text-align: center;
+    width: 350px; /* 화면 고정 너비 */
+    height: 500px; /* 화면 고정 높이 */
+    padding: 20px;
+    margin: 0 auto;
+    overflow: hidden !important; /* 스크롤 방지 */
+    background: #fff;
 }
 
-#app {
+h1 {
+    font-size: 24px;
+    color: #8A2BE2;
+}
+
+.main-image {
+    width: 300px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.description {
+    font-size: 16px;
+    color: #8A2BE2;
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+/* 업로드 컨테이너 */
+.upload-container {
+    border: 2px solid #ff69b4;
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    cursor: pointer;
+    width: 200px;
+    text-align: center;
+    color: #555;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+.upload-container.dragover {
+    border-color: #ff1493;
+    background-color: #fff0f5;
+}
+
+.upload-label span {
+    color: #0073e6;
+    text-decoration: underline;
+}
+
+.file-name {
+    font-size: 14px;
+    color: #333;
+    margin-top: 10px;
+}
+
+/* 포맷 선택 */
+#format {
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+#format:hover {
+    border-color: #FF69B4;
+}
+
+/* 변환 버튼 */
+#convertButton, #downloadButton, #retryButton {
+    display: block;
+    width: 100%;
+    max-width: 100px;
+    padding: 10px 0;
+    font-size: 18px;
+    background-color: #FF8080;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    margin: 20px auto 0;
+}
+
+#convertButton:hover, #downloadButton:hover, #retryButton:hover {
+    background-color: #FF69B4;
+}
+
+/* API 토큰 입력 */
+.token-input {
+    margin: 10px 0;
+    padding: 10px;
+    width: 80%;
+    max-width: 200px;
+    font-size: 16px;
+    border: 1px solid #FF69B4;
+    border-radius: 10px !important;
+    outline: none;
     text-align: center;
 }
 
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    margin-top: 20px;
-    cursor: pointer;
-    background-color: #1DB954;
-    border: none;
-    color: white;
-    border-radius: 20px;
+/* 로딩 이미지 및 상태 표시 */
+.center-status {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
 }
 
-#recommendations {
-    margin-top: 20px;
+.loading-icon {
+    width: 400px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* 숨김 클래스 */
+.hidden {
+    display: none !important; /* 숨김 처리 강제 */
 }
