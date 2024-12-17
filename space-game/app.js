@@ -19,9 +19,18 @@ class GameObject {
     }
 
     draw(ctx) {
-    //캔버스에 이미지 그리기
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height); //
+        if (this.destroyed) {
+            if (this.img) {
+                ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+            }
+            return; // destroyed 상태에서는 이후 로직 실행 안함
+        }
+    
+        if (this.img) {
+            ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+        }
     }
+    
 }
 
 class Hero extends GameObject {
@@ -34,6 +43,12 @@ class Hero extends GameObject {
         this.life = 3;
         this.points = 0;
     }
+
+    updatePosition() {
+        this.x += this.speed.x; // X축 이동
+        this.y += this.speed.y; // Y축 이동
+    }
+
     decrementLife() {
         this.life--;
         if (this.life === 0) {
@@ -246,20 +261,19 @@ function initGame() {
             hero.fire();
         }  
     });
+ 
     eventEmitter.on(Messages.COLLISION_ENEMY_LASER, (_, { first, second }) => {
-        first.dead = true;
-        showDestroyedImage(second, destroyedEnemie, 500); // 적 제거 및 이미지 표시 
-       
-    });
-
-    eventEmitter.on(Messages.COLLISION_ENEMY_LASER, (_, { first, second }) => {
-        first.dead = true;
-        second.dead = true;
-        hero.incrementPoints();
-        if (isEnemiesDead()) {
-            eventEmitter.emit(Messages.GAME_END_WIN);
+        if (second.type === "Enemy" && !second.dead && !second.destroyed) {
+            showDestroyedImage(second, destroyedEnemie, 500); // 이펙트 표시 및 500ms 후 제거
+            first.dead = true; // 레이저 제거
+            second.dead = true; // 적 제거 상태
+            hero.incrementPoints(); // 점수 증가
+            if (isEnemiesDead()) {
+                eventEmitter.emit(Messages.GAME_END_WIN);
             }
+        }
     });
+    
 
     eventEmitter.on(Messages.COLLISION_ENEMY_HERO, (_, { enemy }) => {
         enemy.dead = true;
@@ -291,12 +305,38 @@ function drawGameObjects(ctx) {
     gameObjects.forEach(go => go.draw(ctx));
 }
 
-function updateGameObjects() {
+function updateGameObjects() {   
+    // 키 입력에 따른 이동 처리
+    const speed = 15;
+    if (keysPressed["ArrowUp"]) {
+        hero.y -= speed;
+        sideHero1.y -= speed;
+        sideHero2.y -= speed;
+    }
+    if (keysPressed["ArrowDown"]) {
+        hero.y += speed;
+        sideHero1.y += speed;
+        sideHero2.y += speed;
+    }
+    if (keysPressed["ArrowLeft"]) {
+        hero.x -= speed;
+        sideHero1.x -= speed;
+        sideHero2.x -= speed;
+    }
+    if (keysPressed["ArrowRight"]) {
+        hero.x += speed;
+        sideHero1.x += speed;
+        sideHero2.x += speed;
+    }
+
+    // 기존 게임 객체 업데이트 로직
     const enemies = gameObjects.filter((go) => go.type === "Enemy");
     const lasers = gameObjects.filter((go) => go.type === "Laser");
+
+    // 레이저와 적 충돌 검사
     lasers.forEach((l) => {
         enemies.forEach((m) => {
-            if (intersectRect(l.rectFromGameObject(), m.rectFromGameObject())) {
+            if (!m.destroyed && !m.dead && intersectRect(l.rectFromGameObject(), m.rectFromGameObject())) {
                 eventEmitter.emit(Messages.COLLISION_ENEMY_LASER, {
                     first: l,
                     second: m,
@@ -304,16 +344,23 @@ function updateGameObjects() {
             }
         });
     });
-    gameObjects = gameObjects.filter((go) => !go.dead); 
 
-    enemies.forEach(enemy => {
-        const heroRect = hero.rectFromGameObject();
-        if (intersectRect(heroRect, enemy.rectFromGameObject())) {
-        eventEmitter.emit(Messages.COLLISION_ENEMY_HERO, { enemy });
+    // Hero와 적 충돌 검사
+    enemies.forEach((enemy) => {
+        if (!enemy.dead) { // 이미 처리된 적은 제외
+            const heroRect = hero.rectFromGameObject();
+            if (intersectRect(heroRect, enemy.rectFromGameObject())) {
+                enemy.dead = true; // 충돌한 적 상태를 바로 변경
+                eventEmitter.emit(Messages.COLLISION_ENEMY_HERO, { enemy });
+            }
         }
-        })
-    
+    });
+
+    // 죽은 객체 필터링
+    gameObjects = gameObjects.filter((go) => !(go.dead && !go.destroyed));
+
 }
+
 
 function intersectRect(r1, r2) {
     return !(
@@ -324,16 +371,14 @@ function intersectRect(r1, r2) {
     );
    }
 
-function showDestroyedImage(target, destroyedImage, duration = 500) {
-    // 대상 객체의 이미지를 변경
-    target.img = destroyedImage;
-
-    // 일정 시간 후 객체를 제거
+   function showDestroyedImage(target, destroyedImage, duration = 500) {
+    target.img = destroyedImage; 
+    target.destroyed = true;     
     setTimeout(() => {
-        target.dead = true; // 제거 상태로 설정
+        target.dead = true;      
+        target.destroyed = false; // destroyed 상태를 false로 되돌림
     }, duration);
-} 
-
+}
 function startAutoAttack(heroes, interval = 1000) {
     // 보조 우주선 1
     sideHero1Timer = setInterval(() => {
@@ -381,41 +426,61 @@ function isHeroDead() {
     }
 
 function displayMessage(message, color = "red") {
+    ctx.save(); // 현재 캔버스 상태 저장
     ctx.font = "30px Arial";
     ctx.fillStyle = color;
     ctx.textAlign = "center";
     ctx.fillText(message, canvas.width / 2, canvas.height / 2);
-    }
+    ctx.restore(); // 캔버스 상태 복원
+}
 
+function clearAutoAttackTimers() {
+    if (sideHero1Timer) {
+        clearInterval(sideHero1Timer);
+        sideHero1Timer = null;
+    }
+    if (sideHero2Timer) {
+        clearInterval(sideHero2Timer);
+        sideHero2Timer = null;
+    }
+}
 
 function endGame(win) {
-    clearInterval(gameLoopId);
-    // 게임 화면이 겹칠 수 있으니, 200ms 지연
+    clearInterval(gameLoopId); // 게임 루프 중지
+    clearAutoAttackTimers();
+
     setTimeout(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        if (win) {
-            displayMessage(
-            "Victory!!! Pew Pew... - Press [Enter] to start a new game Captain Pew Pew",
-            "green"
-            );
+        if (backImg) {
+            const bgPattern = ctx.createPattern(backImg, 'repeat');
+            ctx.fillStyle = bgPattern;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
         } else {
-            displayMessage(
-            "You died !!! Press [Enter] to start a new game Captain Pew Pew"
-            );
+            ctx.fillStyle = "black"; // 배경이 없을 경우 기본 색상 사용
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
-    }, 200)
+
+        // 메시지 표시
+        displayMessage(
+            win
+                ? "Victory!!! Press [Enter] to start a new game"
+                : "You died!!! Press [Enter] to restart the game",
+            win ? "green" : "red"
+        );
+    }, 200);
 }
+
 
 function resetGame() {
     if (gameLoopId) {
-        clearInterval(gameLoopId); // 게임 루프 중지, 중복 실행 방지
-        eventEmitter.clear(); // 모든 이벤트 리스너 제거, 이전 게임 세션 충돌 방지
-        initGame(); // 게임 초기 상태 실행
-        gameLoopId = setInterval(() => { // 100ms 간격으로 새로운 게임 루프 시작
+        clearInterval(gameLoopId); // 게임 루프 중지
+        clearAutoAttackTimers(); // 보조 비행기 타이머 정리
+        eventEmitter.clear(); // 이벤트 리스너 정리
+        initGame(); // 게임 초기화
+        gameLoopId = setInterval(() => { // 새 게임 루프 시작
+            const bgPattern = ctx.createPattern(backImg, 'repeat');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "black";
+            ctx.fillStyle = bgPattern;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             drawPoints();
             drawLife();
@@ -441,6 +506,7 @@ const Messages = {
 let heroImg,
     enemyImg,
     laserImg,
+    backImg,
     destroyedEnemie,
     sideHero1Timer, 
     sideHero2Timer,
@@ -449,14 +515,16 @@ let heroImg,
     hero,
     lifeImg,
     gameLoopId,
+    keysPressed = {}, // 키 입력 상태를 저장
     eventEmitter = new EventEmitter();
 
 
 window.onload = async () => {
     // 배경색 설정
     
-    const backImg = await loadTexture('assets/starBackground.png');
+    backImg = await loadTexture('assets/starBackground.png');
     destroyedEnemie = await loadTexture('assets/laserGreenShot.png');
+    console.log("Destroyed Enemy Image Loaded:", destroyedEnemie);
     canvas = document.getElementById("myCanvas");
     ctx = canvas.getContext("2d");
     heroImg = await loadTexture("assets/player.png");
@@ -492,8 +560,12 @@ window.onload = async () => {
             break;
         }
     };
-    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keydown', (evt) => {
+        keysPressed[evt.key] = true;
+    });
+        
     window.addEventListener("keyup", (evt) => {
+        keysPressed[evt.key] = false;
         if (evt.key === "ArrowUp") {
             eventEmitter.emit(Messages.KEY_EVENT_UP);
         } else if (evt.key === "ArrowDown") {
